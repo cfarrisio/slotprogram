@@ -156,3 +156,7 @@ def main():
 
 
 main()
+
+# This code is adapted from Tech WithTim's tutorial on creating a chatbot in Python
+Original source: https: // www.youtube.com/watch?v = th4OBktqK1I & ab_channel = TechWithTim
+Credit to Tech With Tim for providing the original implementation
