@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Romy AI</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 14px;
+      }
+
+      .chat-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: black;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        position: relative;
+      }
+
+      .welcome-message {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        color: #5afdf2; /* neon color accent */
+      }
+
+      .chat-bubble {
+        background-color: #444444;
+        color: white;
+        padding: 10px;
+        border-radius: 30px; /* increased from 20px for more rounded look */
+        max-width: 60%;
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .chat-bubble-response {
+        background-color: #5afdf2; /* neon color accent */
+        color: black;
+      }
+
+      .chat-input {
+        width: calc(100% - 85px);
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        background-color: #444444;
+        color: white;
+      }
+
+      .chat-submit {
+        width: 75px;
+        height: 40px;
+        border: none;
+        background-color: #5afdf2; /* neon color accent */
+        border-radius: 20px;
+        color: black;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="welcome-message">{{ welcome_message }}</div>
+      <div id="chatbot-messages">
+        {% for message in messages %}
+        <div
+          class="chat-bubble {% if message.sender == 'bot' %}chat-bubble-response{% endif %}"
+        >
+          {{ message.text }}
+        </div>
+        {% endfor %}
+      </div>
+      <form id="chatbot-form" method="post" action="{{ url_for('home') }}">
+        <input
+          type="text"
+          class="chat-input"
+          name="user_input"
+          placeholder="Type a message..."
+        />
+        <button type="submit" class="chat-submit">Send</button>
+      </form>
+    </div>
+  </body>
+</html>

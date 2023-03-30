@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chatbot</title>
+  </head>
+  <body>
+    <div id="chatbot-container">
+      <div id="chatbot-messages">
+        {% for message in messages %}
+          <div class="message {% if message.sender == 'bot' %}bot{% else %}user{% endif %}">
+            <span class="sender">{% if message.sender == 'bot' %}Bot{% else %}You{% endif %}: </span>
+            <span class="text">{{ message.text }}</span>
+          </div>
+        {% endfor %}
+      </div>
+      <div id="chatbot-input">
+        <form method="post" action="{{ url_for('send_message') }}">
+          <input type="text" name="user_input" id="user-input">
+          <input type="submit" value="Send">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,18 +1,36 @@
-import os
 import openai
+import os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 start_sequence = "\nAI:"
 restart_sequence = "\nHuman: "
 
-response = openai.Completion.create(
-    model="text-davinci-003",
-    prompt="The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: what is the current weather in hamburg,mi?\n\nAI: The current weather in Hamburg, MI is sunny with a high of 66°F and a low of 55°F.\nHuman: thats incorrect\nAI: I apologize for the incorrect information. Would you like me to look for an alternative source of weather data?\nHuman: yes\nAI: Sure! I am now searching for the latest weather data for Hamburg, MI. Please hold while I look for reliable sources.\nHuman: okay\nAI: Based on my research, the current weather in Hamburg, MI is currently cloudy with a high of 61°F and a low of 44°F.\nHuman: whats the water temp in the huron river?\nAI: The current temperature in the Huron River is approximately 58-60 degrees Fahrenheit.\nHuman: I dont think thats accurate. Can you verify that?\nAI: I will be happy to verify the information. I am now searching for additional sources of data on the Huron River's water temperature. Please hold while I look for reliable sources.\nHuman: okay\nAI: According to my research, the current water temperature in the Huron River is between 56 and 61 degrees Fahrenheit.\nHuman: how many dams will I hit if I kayak from strawberry lake, hamburg mi, to downtown ann arbor using the huron river?\nAI: I am not sure of the exact number of dams you will encounter when kayaking from Strawberry Lake, Hamburg MI to downtown Ann Arbor. However, you should be aware that there are at least three dams located along the Huron River that you may encounter on your journey.\nHuman: what dams are those?\nAI: The three dams that are located along the Huron River are the Argo Dam, the Barton Dam, and the Geddes Dam.\nHuman: what about the flook dam near portage lake? Yes, the Flook Dam is also located near Portage Lake. It is located near the mouth of the Middle Huron River, near where it flows into Portage Lake.\nHuman: Can you connect to weather and navigation api's to better communicate real time weather and routing completions?\nAI: Yes, absolutely! I can connect to various weather and navigation APIs, such as OpenWeatherMap, Google Maps, and Dark Sky, to access updated, real-time weather and routing information.\nHuman: lets walk thru that process, what do you need from me?\nAI: First, I need to know what type of data you would like to access. For example, if you would like weather information, I need to know the specific location for which you would like to receive data. If you would like routing information, I need to know your desired starting and ending locations. Once I have this information, I will be able to connect to the appropriate APIs and retrieve the information you need.\nHuman: these will all be user generated, so after an initial prompt of something like: 'What do you need?' the user willl ask for routing or weather, and we need to extract keywords to then pull current data\nAI: Yes, I understand. After receiving the initial prompt from the user, I will extract the keywords in order to determine whether they are looking for weather information or routing information. Once I have identified these keywords, I can then connect to the appropriate APIs in order to retrieve the desired data.\nHuman: perfect, write me the python code and I will begin developing, using you as reference as we go.Sound good?\nAI: Yes, that sounds good! I would be happy to provide you with the Python code needed for this project. Please let me know if there is anything else I can do to help.\nHuman: thats it, so whats the script?\nAI: Here is the script for connecting to weather and navigation APIs:\n\n\n#import necessary packages\nimport requests\nimport json\n\n#define variables\napi_key = '<your_api_key_here>'\nlocation = '<desired_location>'\n\n#generate url for requesting data\nurl = \"https://api.openweathermap.org/data/2.5/weather?q={}&APPID={}\".format(location, api_key)\n\n#make request\nresponse = requests.get(url)\n\n#parse response data\ndata = json.loads(response.text)\n\n#extract weather info\nweather_info = data['main\nHuman: where can I put this so you can refer to it like we talked about?\nAI: You can put this code in a text file and store it in a directory for easy access. Alternatively, you can also store it as a Python script so that you can easily execute the code.\nHuman: so how do you integrate with it?\nAI: To integrate with it, you will need to use a programming language like Python to write code which will call the script, pass in the necessary parameters, and process the response. Additionally, you can also create an AI system which will be able to understand natural language queries and provide accurate results.\nHuman: lets walk thru this\nAI: Sure! To integrate with the script, you will need to use a programming language like Python to create a function that calls the script, passes in the necessary parameters, and processes the response. Additionally, you can also create an AI system which will be able to understand natural language queries and provide accurate results.\nHuman: from this point forward, after you explain what I need, actually give me the script so I can input into VSC\nAI:\nAI: Sure thing! Here is the code for integrating the script with a programming language like Python:\n\n#import necessary packages\nimport requests\nimport json\n\n#define variables\napi_key = '<your_api_key_here>'\nlocation = '<desired_location>'\n\n#generate url for requesting data\nurl = \"https://api.openweathermap.org/data/2.5/weather?q={}&APPID={}\".format(location, api_key)\n\n#create function to call the script and process the response\ndef get_weather_data(location, api_key):\n    #make request\n    response = requests.get(\nHuman: explain that script to me and make sure its optimized for optimal output\nAI: Sure thing! The script uses the OpenWeatherMap API to call for weather data for a given location. Once the API key and the desired location is set, the script generates a URL in order to pass these parameters to the API. Then, a function is created which makes an API request and parses the response data into a dictionary. This dictionary contains the weather information requested by the user, which is then optimized for optimal output.\nHuman: how can I connect this backend config to a ui where users can go to ask you questions about kayaking conditions for rivers and waterways\nAI: To connect this backend configuration to a user interface (UI), you will need to create an AI system that can understand natural language queries and process them correctly. Additionally, you will need to create a user interface which allows users to input their queries and receive accurate information in response. This UI should also provide visuals to help users better understand the kayaking conditions in the rivers and waterways.\nHuman: walk me thru how to set that up",
-    temperature=0.9,
-    max_tokens=150,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0.6,
-    stop=[" Human:", " AI:"]
-)
+
+def generate_response(prompt):
+    response = openai.Completion.create(
+        engine="text-curie-001",
+        prompt=prompt,
+        temperature=0.5,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=[" Human:", " AI:"]
+    )
+    return response.choices[0].text.strip()
+
+
+print("Hi there, I'm Romy. Your AI assistant 🦝")
+while True:
+    user_input = input("You 👉 ")
+    rr_keywords = ["roomraccoon", "reservation system",
+                   "booking engine", "property management system"]
+    if any(keyword in user_input.lower() for keyword in rr_keywords):
+        prompt = f"{start_sequence} {user_input} about Roomraccoon{restart_sequence}"
+    else:
+        prompt = f"{start_sequence} {user_input}{restart_sequence}"
+    response = generate_response(prompt)
+    print(response)
+    if "Goodbye" in response:
+        break
