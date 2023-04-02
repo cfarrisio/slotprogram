@@ -1,31 +1,112 @@
-body {
-	background-color: #e2e2e2;
-	font-family: 'Poppins', sans-serif;
-	padding: 20px;
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <title>Reservation Form</title>
+  <style>
+    body {
+      background-color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+      font-family: sans-serif;
+    }
+    input[type="submit"] {
+      background-color: #21827c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-family: sans-serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #195e55;
+    }
+    label {
+      font-size: 14px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #21827c;
+      margin-bottom: 5px;
+    }
+    #results {
+      margin-top: 20px;
+      font-size: 18px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #21827c;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart"></div>
+  <form>
+    <label for="adr">ADR</label>
+    <input type="text" id="adr" name="adr" placeholder="Enter ADR">
 
-label {
-	display: block;
-	margin-bottom: 10px;
-	font-size: 18px;
-	font-weight: bold;
-}
+    <label for="monthly">Monthly Reservations</label>
+    <input type="text" id="monthly" name="monthly" placeholder="Enter Monthly Reservations">
 
-input[type="text"] {
-	padding: 10px;
-	font-size: 16px;
-	border-radius: 5px;
-	border: none;
-	width: 100%;
-	margin-bottom: 20px;
-}
+    <label for="cost">Cost of Current System</label>
+    <input type="text" id="cost" name="cost" placeholder="Enter Cost of Current System">
 
-input[type="submit"] {
-	background-color: #21827c;
-	color: white;
-	font-size: 18px;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
+    <label for="direct">Number of Direct Reservations</label>
+    <input type="text" id="direct" name="direct" placeholder="Enter Number of Direct Reservations">
+
+    <label for="channels">Number of Booking Channels</label>
+    <input type="text" id="channels" name="channels" placeholder="Enter Number of Booking Channels">
+
+    <label for="occupancy">Occupancy Rate</label>
+    <input type="text" id="occupancy" name="occupancy" placeholder="Enter Occupancy Rate">
+
+    <input type="submit" value="Submit">
+
+    <p id="results"></p>
+  </form>
+
+  <script>
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([    ['Category', 'Value', { role: 'style' }],
+		  ['ADR', 0, '#21827c'],
+		  ['Monthly Reservations', 0, '#21827c'],
+		  ['Cost of Current System', 0, '#21827c'],
+		  ['Number of Direct Reservations', 0, '#21827c'],
+		  ['Number of Booking Channels', 0, '#21827c'],
+		  ['Occupancy Rate', 0, '#21827c']
+		]);
+
+		var options = {
+		  chartArea: {width: '50%'},
+		  hAxis: {
+			title: 'Value',
+			minValue: 0
+		  },
+		  vAxis: {
+			title: 'Category'
+		  },
+		  legend: {position: 'none'}
+		};
+
+		var chart = new google.visualization.BarChart(document.getElementById('chart'));
+
+		chart.draw(data, options);
+	  }

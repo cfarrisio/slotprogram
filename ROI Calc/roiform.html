@@ -3,64 +3,154 @@
 <head>
   <meta charset="utf-8">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <title>ROI Form</title>
-  <link rel="stylesheet" type="text/css" href="roiform.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <title>Reservation Form</title>
   <style>
-    #submit-button {
-      display: block;
-      margin: 0 auto;
-      background-color: #222;
+    body {
+      background-color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+      font-family: sans-serif;
+    }
+    input[type="submit"] {
+      background-color: #21827c;
       color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-family: sans-serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #195e55;
+    }
+    label {
+      font-size: 14px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #21827c;
+      margin-bottom: 5px;
+    }
+    #results {
+      margin-top: 20px;
+      font-size: 18px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #21827c;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12 m6">
-          <input type="number" id="adr" name="adr" step="0.01">
-          <label for="adr">ADR ($)</label>
-        </div>
-        <div class="input-field col s12 m6">
-          <input type="number" id="monthly" name="monthly" step="1">
-          <label for="monthly"># of Monthly Reservations</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12 m6">
-          <input type="number" id="cost" name="cost" step="0.01">
-          <label for="cost">Cost of Current System ($)</label>
-        </div>
-        <div class="input-field col s12 m6">
-          <input type="number" id="direct" name="direct" step="1">
-          <label for="direct">Number of Direct Reservations</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12 m6">
-          <input type="number" id="channels" name="channels" step="1">
-          <label for="channels">Number of Booking Channels</label>
-        </div>
-        <div class="input-field col s12 m6">
-          <select id="occupancy" name="occupancy">
-            <option value="0.50">50%</option>
-            <option value="0.60">60%</option>
-            <option value="0.70">70%</option>
-            <option value="0.80">80%</option>
-            <option value="0.90">90%</option>
-            <option value="1.00">100%</option>
-          </select>
-          <label for="occupancy">Occupancy Rate (%)</label>
-        </div>
-      </div>
-      <button id="submit-button" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-    </form>
-    <p id="results"></p>
+  <form id="reservation-form">
+    <label for="adr">ADR</label>
+    <input type="text" id="adr" name="adr" placeholder="Enter ADR">
+
+    <label for="monthly">Monthly Reservations</label>
+    <input type="text" id="monthly" name="monthly" placeholder="Enter Monthly Reservations">
+
+    <label for="cost">Cost of Current System</label>
+    <input type="text" id="cost" name="cost" placeholder="Enter Cost of Current System">
+
+    <label for="direct">Number of Direct Reservations</label>
+    <input type="text" id="direct" name="direct" placeholder="Enter Number of Direct Reservations">
+
+    <label for="channels">Number of Booking Channels</label>
+    <input type="text" id="channels" name="channels" placeholder="Enter Number of Booking Channels">
+
+    <label for="occupancy">Occupancy Rate</label>
+    <input type="text" id="occupancy" name="occupancy" placeholder="Enter Occupancy Rate">
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <div id="charts" style="display:none">
+    <div id="chart"></div>
+    <div id="chart2"></div>
   </div>
 
-  <script src="roiform.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
-</html>
+  <script>
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.load('current', {packages: ['corechart']});
+
+    document.getElementById("reservation-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      var adr = parseFloat(document.getElementById("adr").value);
+      var monthly = parseFloat(document.getElementById("monthly").value);
+      var cost = parseFloat(document.getElementById("cost").value);
+      var direct = parseFloat(document.getElementById("direct").value);
+      var channels = parseFloat(document.getElementById("channels").value);
+      var occupancy = parseFloat(document.getElementById("occupancy").value);
+
+      if (isNaN(adr) || isNaN(monthly) || isNaN(cost) || isNaN(direct) || isNaN(channels) || isNaN(occupancy)) {
+        document.getElementById("results").innerHTML = "Please enter valid input for all fields.";
+        document.getElementById("charts").style.display = "none";
+      } else {
+        document.getElementById("results").innerHTML = "";
+
+        var data = google.visualization.arrayToDataTable([
+          ['Category', 'Value', { role: 'style' }],
+          ['ADR', adr, '#21827c'],
+          ['Monthly Reservations', monthly, '#21827c'],
+          ['Cost of Current System', cost, '#21827c'],
+          ['Number of Direct Reservations', direct, '#21827c'],
+          ['Number of Booking Channels', channels, '#21827c'],
+          ['Occupancy Rate', occupancy, '#21827c']
+        ]);
+
+        var options = {
+          chartArea: { width: '50%' },
+          hAxis: {
+            title: 'Value',
+            minValue: 0
+          },
+          vAxis: {
+            title: 'Category'
+          },
+          legend: { position: 'none' }
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart'));
+        chart.draw(data, options);
+
+        var data2 = google.visualization.arrayToDataTable([
+          ['Opportunity Areas', 'Impact'],
+          ['Marketing and Distribution', 2],
+          ['Pricing', 1],
+          ['Revenue Management', 1],
+          ['Operations', 3],
+          ['Technology', 3]
+        ]);
+
+        var options2 = {
+          chartArea: { width: '50%' },
+          legend: { position: 'none' }
+        };
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart2'));
+        chart2.draw(data2, options2);
+
+        document.getElementById("charts").style.display = "block";
+      }
+    });
+  </script>
+  </body>
+  </html>
+
+
+

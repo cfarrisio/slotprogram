@@ -4,9 +4,9 @@
     <title>Romy AI</title>
     <style>
       body {
-        background-color: black;
-        color: white;
-        font-family: "Helvetica Neue", sans-serif;
+        background-color: white;
+        color: black;
+        font-family: "Poppins", sans-serif;
         font-size: 14px;
       }
 
@@ -15,10 +15,9 @@
         max-width: 600px;
         margin: 0 auto;
         padding: 20px;
-        background-color: black;
+        background-color: white;
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        position: relative;
       }
 
       .welcome-message {
@@ -26,12 +25,12 @@
         margin-bottom: 20px;
         text-align: center;
         font-weight: bold;
-        color: #5afdf2; /* neon color accent */
+        color: #21827c;
       }
 
       .chat-bubble {
-        background-color: #444444;
-        color: white;
+        background-color: #FFFFFF;
+        color: black;
         padding: 10px;
         border-radius: 30px; /* increased from 20px for more rounded look */
         max-width: 60%;
@@ -40,8 +39,8 @@
       }
 
       .chat-bubble-response {
-        background-color: #5afdf2; /* neon color accent */
-        color: black;
+        background-color: #21827c;
+        color: white;
       }
 
       .chat-input {
@@ -49,17 +48,17 @@
         padding: 10px;
         border: none;
         border-radius: 20px;
-        background-color: #444444;
-        color: white;
+        background-color: #FFFFFF;
+        color: black;
       }
 
       .chat-submit {
         width: 75px;
         height: 40px;
         border: none;
-        background-color: #5afdf2; /* neon color accent */
+        background-color: #21827c;
         border-radius: 20px;
-        color: black;
+        color: white;
         font-weight: bold;
       }
     </style>
@@ -71,12 +70,17 @@
         {% for message in messages %}
         <div
           class="chat-bubble {% if message.sender == 'bot' %}chat-bubble-response{% endif %}"
+          {% if message.sender == 'bot' %}style="background-color: #21827c;"{% endif %}
         >
           {{ message.text }}
         </div>
         {% endfor %}
       </div>
-      <form id="chatbot-form" method="post" action="{{ url_for('home') }}">
+      <form
+        id="chatbot-form"
+        method="POST"
+        action="{{ url_for('send_message') }}"
+      >
         <input
           type="text"
           class="chat-input"

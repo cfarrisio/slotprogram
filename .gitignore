@@ -1,2 +1,12 @@
-# Local Netlify folder
-.netlify
+# Local Netlify state
+.netlify/state
+
+# Python virtual environment
+venv
+
+# Other files and directories to exclude
+roiform.html
+app.py
+.env
+ROI Calc
+firebase.json
