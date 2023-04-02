@@ -1,5 +1,17 @@
 {
+  "name": "romy",
+  "version": "0.0.1",
+  "description": "Romy chatbot",
+  "main": "index.js",
+  "scripts": {
+    "start": "python3 app.py",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "Flask": "^2.1.0",
+    "flask-ngrok": "^0.0.25",
+    "openai": "^0.11.2"
   }
 }
